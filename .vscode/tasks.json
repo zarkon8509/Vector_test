@@ -10,7 +10,11 @@
 				"-g",
 				"*.cpp",
 				"-o",
-				"${fileDirname}/${fileBasenameNoExtension}"
+				"${fileDirname}/${fileBasenameNoExtension}",
+				"-lsfml-graphics",
+				"-lsfml-system",
+				"-lsfml-window"
+
 			],
 			"options": {
 				"cwd": "${fileDirname}"
