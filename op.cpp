@@ -1,4 +1,6 @@
 #include "op.h"
+#include "object.h"
+#include <vector>
 
 op::op()
 {

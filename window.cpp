@@ -16,6 +16,7 @@ void window::initWindow()
     videoMode.width=800;
     windowObject = new sf::RenderWindow(videoMode, "Test SFML", 
                                         sf::Style::Default);
+    windowObject->setFramerateLimit(60);
 }
 
 sf::RenderWindow* window::getWindow()

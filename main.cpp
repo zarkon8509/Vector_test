@@ -27,20 +27,28 @@ int main()
             {
             case sf::Keyboard::Escape:
                 win.getWindow()->close();
-                break;
+                break;    
+                case sf::Keyboard::Space:
+                    for (auto& o:obj)
+                    {
+                        o.start();
+                    }
+                    break;                
             default:
                 break;
             }
             if(win.getEvent().type == sf::Event::Closed)
                 win.getWindow()->close();
-
-            win.getWindow()->clear();
-            for(auto& o:obj)
-                o.render(win.getWindow());
-            win.getWindow()->display();
         }
-        
-    }    
+         win.getWindow()->clear();
+            for(auto& o:obj)
+            {
+                o.moveObj();
+                o.checkCollision(win.getWindow());
+                o.render(win.getWindow());
+            }
+            win.getWindow()->display();
+        }    
     return 0;
 }
 
