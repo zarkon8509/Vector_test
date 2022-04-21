@@ -3,11 +3,24 @@
 object::object()
 {
     initShape();
+    initVariables();
 }
 
 sf::RectangleShape &object::getShape()
 {
     return shape;
+}
+
+void object::initVariables()
+{
+    up        = sf::Vector2f(0.f, -1.f);
+    down      = sf::Vector2f(0.f, 1.f);
+    left      = sf::Vector2f(-1.f, 0.f);
+    right     = sf::Vector2f(1.f, 0.f);
+    upLeft    = sf::Vector2f (-1.f , -1.f);
+    upRight   = sf::Vector2f (1.f  , -1.f);
+    downLeft  = sf::Vector2f (-1.f ,  1.f);
+    downRight = sf::Vector2f (1.f  ,  1.f);
 }
 
 void object::initShape()
@@ -42,27 +55,35 @@ void object::moveObj()
     {
     case direction::UP:
     if(prev==direction::LEFT)
-        shape.move(sf::Vector2f(1.f, -1.f));
+        shape.move(upLeft);
     else if(prev==direction::RIGHT)
-        shape.move(sf::Vector2f(-1.f, -1.f));
+        shape.move(upRight);
+        else
+        shape.move(up);
     break;
     case direction::DOWN:
     if(prev==direction::LEFT)
-        shape.move(sf::Vector2f(1.f, 1.f));
+        shape.move(downLeft);
     else if(prev==direction::RIGHT)
-        shape.move(sf::Vector2f(-1.f, 1.f));
+        shape.move(downRight);
+        else
+        shape.move(down);
     break;
     case direction::LEFT:
     if(prev==direction::UP)
-        shape.move(sf::Vector2f(-1.f, -1.f));
+        shape.move(upLeft);
     else if(prev==direction::DOWN)
-        shape.move(sf::Vector2f(-1.f, 1.f));
+        shape.move(upRight);
+        else
+        shape.move(left);
     break;
     case direction::RIGHT:
     if(prev==direction::UP)
-        shape.move(sf::Vector2f(1.f, 1.f));
+        shape.move(upRight);
     else if(prev==direction::DOWN)
-        shape.move(sf::Vector2f(1.f, -1.f));
+        shape.move(downRight);
+        else
+        shape.move(right);
     break;
     default:
         break;
@@ -112,5 +133,5 @@ void object::checkCollision(sf::RenderWindow* target)
 void object::start()
 {
     dir=static_cast<direction>(rand()%
-                    (static_cast<int>(direction::STOP)));
+                    (static_cast<int>(direction::STOP)-2));
 }
