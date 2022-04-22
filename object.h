@@ -36,7 +36,9 @@ class object
     public:
     object();
 
+    //Getters
     sf::RectangleShape &getShape();
+    direction& getDirection();
 
     //Update
     void update();

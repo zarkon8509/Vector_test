@@ -46,6 +46,7 @@ int main()
                 o.moveObj();
                 o.checkCollision(win.getWindow());
                 o.render(win.getWindow());
+                std::cout<<"\n Direction: "<<static_cast<int>(o.getDirection());
             }
             win.getWindow()->display();
         }    

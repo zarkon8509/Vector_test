@@ -5,12 +5,17 @@ object::object()
     initShape();
     initVariables();
 }
+//Getters
 
 sf::RectangleShape &object::getShape()
 {
     return shape;
 }
 
+direction &object::getDirection()
+{
+    return dir;
+}
 void object::initVariables()
 {
     up        = sf::Vector2f(0.f, -1.f);
@@ -54,36 +59,31 @@ void object::moveObj()
     switch (dir)
     {
     case direction::UP:
-    if(prev==direction::LEFT)
-        shape.move(upLeft);
-    else if(prev==direction::RIGHT)
-        shape.move(upRight);
-        else
         shape.move(up);
     break;
     case direction::DOWN:
-    if(prev==direction::LEFT)
-        shape.move(downLeft);
-    else if(prev==direction::RIGHT)
-        shape.move(downRight);
-        else
         shape.move(down);
     break;
     case direction::LEFT:
-    if(prev==direction::UP)
-        shape.move(upLeft);
-    else if(prev==direction::DOWN)
-        shape.move(upRight);
-        else
         shape.move(left);
     break;
     case direction::RIGHT:
-    if(prev==direction::UP)
-        shape.move(upRight);
-    else if(prev==direction::DOWN)
-        shape.move(downRight);
-        else
         shape.move(right);
+    break;
+
+    //Diagonal Direction
+
+     case direction::upLeft:
+        shape.move(upLeft);
+        break;
+    case direction::upRight:
+        shape.move(upRight);
+    break;
+    case direction::downLeft:
+        shape.move(downLeft);
+    break;
+    case direction::downRight:
+        shape.move(downRight);
     break;
     default:
         break;
@@ -100,31 +100,51 @@ void object::checkCollision(sf::RenderWindow* target)
     //Left
     if(shape.getPosition().x < 0.f)
     {
-        dir = direction::RIGHT; 
-        //shape.setPosition(sf::Vector2f(0.f, shape.getPosition().y));
+        if(prev==direction::upLeft)
+            dir=direction::upRight;
+        else
+            if(prev==direction::LEFT)
+                dir=direction::RIGHT;
+            else
+                dir=direction::downRight;
     }
 
     //Up
     if(shape.getPosition().y < 0.f)
     {
-        dir = direction::DOWN;
-        //shape.setPosition(sf::Vector2f(shape.getPosition().x,0.f));
+        if(prev==direction::upLeft)
+            dir=direction::downLeft;
+        else
+            if(prev==direction::UP)
+                dir=direction::DOWN;
+            else
+                dir=direction::downRight;
     }
 
     //Down
     if(shape.getPosition().y + shape.getGlobalBounds().height>
         target->getSize().y)
         {
-            dir = direction::UP;
-            //shape.setPosition(sf::Vector2f(shape.getPosition().x, 0.f));
+            if(prev==direction::downLeft)
+                dir=direction::upLeft;
+            else
+                if(prev==direction::DOWN)
+                    dir=direction::UP;
+                else
+                    dir=direction::upRight;
         }
     
     //Right
     if(shape.getPosition().x + shape.getGlobalBounds().width>
         target->getSize().x)
         {
-            dir = direction::LEFT;
-            //shape.setPosition(sf::Vector2f(0.f, shape.getPosition().y));
+            if(prev==direction::upRight)
+                dir=direction::upLeft;
+            else
+                if(prev==direction::RIGHT)
+                    dir=direction::LEFT;
+                else
+                    dir=direction::downLeft;
         }
 }
 
@@ -133,5 +153,5 @@ void object::checkCollision(sf::RenderWindow* target)
 void object::start()
 {
     dir=static_cast<direction>(rand()%
-                    (static_cast<int>(direction::STOP)-2));
+                    (static_cast<int>(direction::STOP)));
 }
